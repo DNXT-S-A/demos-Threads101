@@ -10,12 +10,12 @@ public class Threads101 {
 
 	public Threads101() {
 		for (int i = 0; i < 10; i++) {
+			final int threadId = i;
 			Thread consumerThread = new Thread(new Runnable() {
 
 				@Override
 				public void run() {
-					consumer();
-
+					consumer(threadId);
 				}
 			});
 
@@ -34,7 +34,6 @@ public class Threads101 {
 			@Override
 			public void run() {
 				producer();
-
 			}
 		});
 
@@ -48,12 +47,12 @@ public class Threads101 {
 		producerThread.start();
 	}
 
-	public void consumer() {
+	public void consumer(int threadId) {
 		synchronized (lock) {
 			try {
-				System.out.println("C: Will wait to get awaken..");
+				System.out.println("C[" + threadId + "]: Will wait to get awaken..");
 				lock.wait();
-				System.out.println("C: I got awaken!!!");
+				System.out.println("C[" + threadId + "]: I got awaken!!!");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
